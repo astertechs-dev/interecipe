@@ -1,0 +1,30 @@
+*.pyc
+*.pyo
+__pycache__/
+
+# バーチャル環境
+env/
+venv/
+
+# 環境設定ファイル
+*.env
+
+# ログファイル
+*.log
+
+# SQLiteデータベースファイル
+*.sqlite3
+
+# Alembic
+alembic/versions/*.pyc
+
+# Jupyter Notebookのチェックポイント
+.ipynb_checkpoints
+
+# MyPyキャッシュ
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytestキャッシュディレクトリ
+.pytest_cache/
