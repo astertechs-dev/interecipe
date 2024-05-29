@@ -1,46 +1,33 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Text
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from .database import Base
 
 class Recipe(Base):
-    __tablename__ = 'recipes'
-
+    __tablename__ = "recipes"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    image_url = Column(String(255))
+    title = Column(String, index=True)
+    time_required = Column(Integer)
     description = Column(Text)
-    time = Column(Integer)
-
-    ingredients = relationship("RecipeIngredient", back_populates="recipe")
+    image_url = Column(String, nullable=True)
+    
+    ingredients = relationship("Ingredient", back_populates="recipe")
     steps = relationship("Step", back_populates="recipe")
 
-
 class Ingredient(Base):
-    __tablename__ = 'ingredients'
-
+    __tablename__ = "ingredients"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-
-
-class RecipeIngredient(Base):
-    __tablename__ = 'recipe_ingredients'
-
-    id = Column(Integer, primary_key=True, index=True)
-    recipe_id = Column(Integer, ForeignKey('recipes.id'))
-    ingredient_id = Column(Integer, ForeignKey('ingredients.id'))
-    quantity = Column(Float)
-    unit = Column(String(50))
+    recipe_id = Column(Integer, ForeignKey("recipes.id"))
+    name = Column(String)
+    amount = Column(Float)
+    unit = Column(String)
 
     recipe = relationship("Recipe", back_populates="ingredients")
-    ingredient = relationship("Ingredient")
-
 
 class Step(Base):
-    __tablename__ = 'steps'
-
+    __tablename__ = "steps"
     id = Column(Integer, primary_key=True, index=True)
-    recipe_id = Column(Integer, ForeignKey('recipes.id'))
-    order = Column(Integer)
+    recipe_id = Column(Integer, ForeignKey("recipes.id"))
     description = Column(Text)
+    step_number = Column(Integer)
 
     recipe = relationship("Recipe", back_populates="steps")

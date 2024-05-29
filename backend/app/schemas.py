@@ -1,61 +1,32 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 
-class StepBase(BaseModel):
-    order: int
-    description: str
-
-class StepCreate(StepBase):
-    pass
-
-class Step(StepBase):
-    id: int
-    recipe_id: int
-
-    class Config:
-        from_attributes = True
-
-class IngredientBase(BaseModel):
+class Ingredient(BaseModel):
     name: str
-
-class IngredientCreate(IngredientBase):
-    pass
-
-class Ingredient(IngredientBase):
-    id: int
-
-    class Config:
-        from_attributes = True
-
-class RecipeIngredientBase(BaseModel):
-    ingredient_id: int
-    quantity: float
+    amount: float
     unit: str
 
-class RecipeIngredientCreate(RecipeIngredientBase):
+class Step(BaseModel):
+    description: str
+    step_number: int
+
+class RecipeCreate(BaseModel):
+    title: str
+    time_required: int
+    description: str
+    ingredients: List[Ingredient]
+    steps: List[Step]
+
+class RecipeUpdate(RecipeCreate):
     pass
 
-class RecipeIngredient(RecipeIngredientBase):
+class Recipe(BaseModel):
     id: int
-    recipe_id: int
+    title: str
+    time_required: int
+    description: str
+    ingredients: List[Ingredient]
+    steps: List[Step]
 
     class Config:
-        from_attributes = True
-
-class RecipeBase(BaseModel):
-    name: str
-    image_url: Optional[str] = None
-    description: Optional[str] = None
-    time: int
-
-class RecipeCreate(RecipeBase):
-    ingredients: List[RecipeIngredientCreate]
-    steps: List[StepCreate]
-
-class Recipe(RecipeBase):
-    id: int
-    ingredients: List[RecipeIngredient] = []
-    steps: List[Step] = []
-
-    class Config:
-        from_attributes = True
+        orm_mode = True

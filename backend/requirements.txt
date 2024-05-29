@@ -4,5 +4,3 @@ sqlalchemy
 databases
 pydantic
 alembic
-pymysql
-cryptography

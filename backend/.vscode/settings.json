@@ -1,0 +1,15 @@
+{
+    "python.analysis.extraPaths": [
+        "./app"
+    ],
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "interecipe",
+            "group": "givery",
+            "database": "${workspaceFolder:backend}/sql_app.db"
+        }
+    ]
+}
