@@ -1,6 +1,15 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 
+
+def get_recipes(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Recipe).order_by(models.Recipe.id).offset(skip).limit(limit).all()
+
+
+def get_recipe(db: Session, recipe_id: int):
+    return db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
+
+
 def create_recipe(db: Session, recipe: schemas.RecipeCreate):
     db_recipe = models.Recipe(title=recipe.title, time_required=recipe.time_required, description=recipe.description)
     db.add(db_recipe)
@@ -19,8 +28,6 @@ def create_recipe(db: Session, recipe: schemas.RecipeCreate):
     db.refresh(db_recipe)
     return db_recipe
 
-def get_recipe(db: Session, recipe_id: int):
-    return db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
 
 def update_recipe(db: Session, recipe: schemas.RecipeUpdate, recipe_id: int):
     db_recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
@@ -46,6 +53,7 @@ def update_recipe(db: Session, recipe: schemas.RecipeUpdate, recipe_id: int):
     db.refresh(db_recipe)
     return db_recipe
 
+
 def delete_recipe(db: Session, recipe_id: int):
     db_recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
     if db_recipe:
@@ -53,6 +61,3 @@ def delete_recipe(db: Session, recipe_id: int):
         db.query(models.Step).filter(models.Step.recipe_id == recipe_id).delete()
         db.delete(db_recipe)
         db.commit()
-
-def get_recipes(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Recipe).offset(skip).limit(limit).all()
