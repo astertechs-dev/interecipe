@@ -1,29 +1,17 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import NavigationBar from './components/NavigationBar';
-import Footer from './components/Footer';
-import ErrorPage from './components/ErrorPage';
-import RecipeList from './components/RecipeList';
-import RecipeCreate from './components/RecipeCreate';
-import RecipeDetail from './components/RecipeDetail';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import AddRecipe from './pages/AddRecipe';
+import RecipeDetailPage from './pages/RecipeDetailPage';
 
-const App = () => {
-  return (
-    <>
-      <NavigationBar />
-      <main>
-        <Routes>
-          <Route path="/" element={<RecipeList />} />
-          <Route path="/create" element={<RecipeCreate />} />
-          <Route path="/recipes/:id" element={<RecipeDetail />} />
-          <Route path="/error/:errorCode" element={<ErrorPage />} />
-          {/* React Router v6では、catch-all routesは "*" を使用します */}
-          <Route path="*" element={<ErrorPage errorCode="404" />} />
-        </Routes>
-      </main>
-      <Footer />
-    </>
-  );
-};
+const App = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/recipes/new" element={<AddRecipe />} />
+      <Route path="/recipes/:id" element={<RecipeDetailPage />} />
+    </Routes>
+  </Router>
+);
 
 export default App;
